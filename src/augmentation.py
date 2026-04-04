@@ -12,6 +12,11 @@ Why this file exists:
   in one place.
 - The augmentation settings are defined once and reused for both
   visualization and training.
+  
+  after training completed use the command below in terminal 
+  to see the log results in tensorboard local host:
+  tensorboard --logdir=logs/augmentation 
+  
 """
 
 import os
@@ -161,3 +166,4 @@ def main():
 # Run the script only when executed directly
 if __name__ == "__main__":
     main()
+    
