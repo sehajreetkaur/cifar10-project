@@ -2,7 +2,13 @@ from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.utils import to_categorical
 
 def load_cifar10():
-    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    try:
+        (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    except Exception as exc:
+        raise RuntimeError(
+            "Failed to load CIFAR-10. Check your internet connection and TLS/certificates, "
+            "then run the command again."
+        ) from exc
 
     x_train = x_train.astype("float32") / 255.0
     x_test = x_test.astype("float32") / 255.0

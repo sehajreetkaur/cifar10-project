@@ -40,6 +40,7 @@ What you will see:
 
 import os
 import sys
+import json
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -238,17 +239,27 @@ def visualise_architecture(model, output_dir):
 
 # ── Step 6: Compare accuracy ─────────────────────────────────────────────────
 
-def compare_accuracy(acc_baseline, acc_transfer):
+def compare_accuracy(acc_transfer):
     """
     Print a clear accuracy comparison between baseline CNN and transfer learning model.
 
     Args:
-        acc_baseline: Test accuracy of the baseline CNN (float)
         acc_transfer: Test accuracy of the transfer learning model (float)
     """
+    baseline_path = os.path.join(project_root, "outputs", "baseline_results.json")
+    if os.path.exists(baseline_path):
+        with open(baseline_path, encoding="utf-8") as f:
+            acc_baseline = json.load(f).get("test_accuracy")
+    else:
+        acc_baseline = None
+
     print("\n--- Accuracy Comparison ---")
-    print(f"Baseline CNN         : {acc_baseline:.4f}")
     print(f"Transfer Learning    : {acc_transfer:.4f}")
+    if acc_baseline is None:
+        print("Baseline CNN         : not available (run python src/train_baseline.py)")
+        return
+
+    print(f"Baseline CNN         : {acc_baseline:.4f}")
     diff = acc_transfer - acc_baseline
     if diff > 0:
         print(f"Transfer learning is better by {diff:.4f} ({diff*100:.2f}%)")
@@ -325,10 +336,14 @@ def main():
     # Plot training curves
     plot_training_curves(history_head, history_finetune, output_dir)
 
-    # Compare vs baseline CNN
-    # Baseline accuracy from train_baseline.py run — update this value after running baseline
-    acc_baseline = 0.70
-    compare_accuracy(acc_baseline, acc_transfer)
+    results = {"transfer_test_accuracy": round(float(acc_transfer), 4)}
+    results_path = os.path.join(output_dir, "transfer_results.json")
+    with open(results_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2)
+    print(f"Results saved to: {results_path}")
+
+    # Compare vs baseline CNN (if available)
+    compare_accuracy(acc_transfer)
 
 
 # Run the script only when executed directly

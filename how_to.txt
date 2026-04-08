@@ -11,28 +11,46 @@ Setup
    pip install -r requirements.txt
 
 Certificate issue
-- If `test_data_loader.py` fails because of a certificate error, activate the Python certificates on your system, then run the test again.
+- If `test/test_data_loader.py` fails because of a certificate error, activate the Python certificates on your system, then run the test again.
 
 Recommended order for running the files
-1. `test_data_loader.py`
+1. `test/test_data_loader.py`
    - Verifies that CIFAR-10 loads correctly
 
 2. `src/train_baseline.py`
    - Trains the baseline CNN
    - Evaluates the model
-   - Saves the trained model to the `outputs` folder
+   - Saves:
+     - `outputs/CNN.keras`
+     - `outputs/baseline_results.json`
+     - `outputs/baseline_training_curves.png`
 
-3. `src/augmentation.py`
+3. `src/train_improved.py`
+   - Trains improved CNN with callbacks
+   - Saves:
+     - `outputs/CNN_improved.keras`
+     - `outputs/CNN_improved_final.keras`
+     - `outputs/improved_results.json`
+     - `outputs/improved_training_curves.png`
+
+4. `src/augmentation.py`
    - Visualizes augmented images
    - Trains the CNN using data augmentation
-   - Saves TensorBoard logs
+   - Saves TensorBoard logs and `outputs/augmentation_results.json`
+
+5. `src/transfer_learning.py`
+   - Trains transfer learning model with ResNet50
+   - Saves `outputs/resnet50_cifar10.keras` and `outputs/transfer_results.json`
 
 View the saved model
 - If the saved file is `outputs/CNN.keras`, run:
   netron outputs/CNN.keras
 
-- If the saved file is `outputs/baseline_model.keras`, run:
-  netron outputs/baseline_model.keras
+- If the saved file is `outputs/CNN_improved.keras`, run:
+  netron outputs/CNN_improved.keras
+
+- If the saved file is `outputs/resnet50_cifar10.keras`, run:
+  netron outputs/resnet50_cifar10.keras
 
 View TensorBoard logs
 - Run:

@@ -21,6 +21,7 @@ Why this file exists:
 
 import os
 import sys
+import json
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -132,8 +133,11 @@ def train_with_augmentation(x_train, y_train, x_test, y_test, datagen):
         verbose=1
     )
 
+    output_dir = os.path.join(project_root, "outputs")
+    os.makedirs(output_dir, exist_ok=True)
+
     # Save the best model during training based on validation accuracy
-    checkpoint_path = os.path.join(project_root, "outputs", "CNN_augmented_best.keras")
+    checkpoint_path = os.path.join(output_dir, "CNN_augmented_best.keras")
     model_checkpoint = tf.keras.callbacks.ModelCheckpoint(
         filepath=checkpoint_path,
         monitor="val_accuracy",
@@ -276,8 +280,21 @@ def main():
         x_train, y_train, x_test, y_test, datagen
     )
 
+    output_dir = os.path.join(project_root, "outputs")
+    os.makedirs(output_dir, exist_ok=True)
+
     # Plot and compare both runs
     plot_comparison(history_baseline, history_augmented, acc_baseline, acc_augmented)
+
+    results = {
+        "baseline_test_accuracy": round(float(acc_baseline), 4),
+        "augmented_test_accuracy": round(float(acc_augmented), 4),
+        "accuracy_delta": round(float(acc_augmented - acc_baseline), 4),
+    }
+    results_path = os.path.join(output_dir, "augmentation_results.json")
+    with open(results_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2)
+    print(f"Augmentation results saved to: {results_path}")
 
 
 # Run the script only when executed directly
