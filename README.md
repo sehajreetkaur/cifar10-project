@@ -33,26 +33,37 @@ Dataset facts:
 
 ```text
 .
-├── src/
-│   ├── augmentation.py
-│   ├── data_loader.py
-│   ├── model_CNN.py
-│   ├── model_improved_cnn.py
-│   ├── predict.py
-│   ├── train_baseline.py
-│   ├── train_improved.py
-│   └── transfer_learning.py
+├── cifar10/
+│   ├── src/
+│   │   ├── data_loader.py
+│   │   ├── model_CNN.py
+│   │   ├── model_improved_cnn.py
+│   │   ├── augmentation.py
+│   │   ├── train_baseline.py
+│   │   ├── train_improved.py
+│   │   ├── transfer_learning.py
+│   │   ├── predict.py
+│   │   ├── plot_samples.py
+│   │   └── evaluate_all_models.py
+│   ├── outputs/
+│   ├── test/
+│   └── logs/
 ├── cifar100/
-│   └── src/
-│       ├── augmentation.py
-│       ├── data_loader.py
-│       ├── model_cnn.py
-│       ├── predict.py
-│       ├── train.py
-│       └── transfer_learning.py
-├── outputs/
-├── cifar100/outputs/
-├── test/
+│   ├── src/
+│   │   ├── data_loader.py
+│   │   ├── model_cnn.py
+│   │   ├── augmentation.py
+│   │   ├── train.py
+│   │   ├── transfer_learning.py
+│   │   ├── predict.py
+│   │   └── evaluate_cifar100_and_compare.py
+│   ├── outputs/
+│   ├── test/
+│   └── logs/
+├── project_model_comparison.csv
+├── project_model_comparison.png
+├── project_model_comparison.txt
+├── cifar10.py
 ├── requirements.txt
 ├── how_to.txt
 └── README.md
