@@ -166,7 +166,7 @@ tensorboard --logdir=logs/improved
 
 ### Model Evaluation + Grad-CAM
 ```bash
-python src/evaluate_gradcam.py
+python src/evaluate_all_models.py
 ```
 Evaluates the improved CNN on the CIFAR-10 test set and generates:
 - confusion matrix heatmap
